@@ -38,6 +38,21 @@ const routes = [
     path: '/test',
     name: 'test',
     component: () => import(/* webpackChunkName: "List" */ '../views/Test.vue')
+  },
+  {
+    path: '/test2',
+    name: 'test2',
+    component: () => import(/* webpackChunkName: "List" */ '../views/Test2.vue')
+  },
+  {
+    path: '/test_relation',
+    name: 'test_relation',
+    component: () => import(/* webpackChunkName: "List" */ '../views/Test_relation.vue')
+  },
+  {
+    path: '/test_sort',
+    name: 'test_sort',
+    component: () => import(/* webpackChunkName: "List" */ '../views/Test_sort.vue')
   }
 ]
 
