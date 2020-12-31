@@ -23,6 +23,7 @@
 
 <script>
 import cloneDeep from 'clonedeep'
+import axios from 'axios';
 export default {
   data() {
     return {
@@ -76,6 +77,30 @@ export default {
           status_word: "启用"
         },
         {
+          id: 9,
+          organization_number: "Z12",
+          name: "海外",
+          person_in_charge: "",
+          father_organization_name: "和合集团",
+          first_level: "和合集团",
+          second_level: "海外",
+          third_level: "",
+          fourth_level: "",
+          status_word: "启用"
+        },
+        {
+           id: 6,
+          organization_number: "G2",
+          name: "G2",
+          person_in_charge: "",
+          father_organization_name: "-",
+          first_level: "G2",
+          second_level: "",
+          third_level: "",
+          fourth_level: "",
+          status_word: ""
+        },
+        {
           id: 6,
           organization_number: "Z1112",
           name: "福建闽瑞通",
@@ -99,18 +124,7 @@ export default {
           fourth_level: "",
           status_word: "禁用"
         },
-        {
-          id: 9,
-          organization_number: "Z12",
-          name: "海外",
-          person_in_charge: "",
-          father_organization_name: "和合集团",
-          first_level: "和合集团",
-          second_level: "海外",
-          third_level: "",
-          fourth_level: "",
-          status_word: "启用"
-        },
+        
         {
           id: 10,
           organization_number: "DOE2",
@@ -160,7 +174,15 @@ export default {
   mounted() {
    
 
-    let arr = []
+   
+     axios
+      .post("/api/Rbac/organization/getOrganizationList", {
+        token: "DR!HO4uA7B7!ComN",
+      })
+      .then(res=>{
+        this.tableData = res.data.data
+        // console.log(this.tableData)
+          let arr = []
     this.tableData.forEach(item=>{
       if(item.first_level&&!item.second_level&&!item.third_level&&!item.fourth_level){
         let temp = []
@@ -171,8 +193,57 @@ export default {
             }
         })
         temp.sort((a,b)=>{
-            return parseInt(a.organization_number) < parseInt(b.organization_number)
+
+            // let aNum = this.getNum(a.organization_number)
+            
+            // let bNum = this.getNum(b.organization_number)
+            // // let aLen = (aNum+'').length
+            // // let bLen = (bNum+'').length
+            // console.log(`${aNum}-----${a.organization_number.length}`, `${bNum}-----${b.organization_number.length}`)
+            // // if(aNum<bNum&& ){
+            // //     return -1
+            // // }else{
+            // //     return 1
+            // // }
+            // return this.getNum(a.organization_number) > this.getNum(b.organization_number)
+            // if(aNum<bNum){
+            //     if(a.organization_number.length>b.organization_number.length){
+            //       return -1
+            //     }else{
+            //       return 1
+            //     }
+            
+
+            // }else{
+            //   return 1
+            // }
+
+            // if(){
+
+            // }
+            let aNum = this.get(a.organization_number)
+            let bNum = this.get(b.organization_number)
+            
+            let an = aNum<10 ? aNum*1000 : aNum<100 ? aNum*100: aNum<1000 ? aNum *10: aNum
+            let bn = bNum<10 ? bNum*1000 : bNum<100 ? bNum*100: bNum<1000 ? bNum *10: bNum
+
+            if(an< bn){
+               return -1
+            }else{
+
+              return 1
+            }
         })
+
+        // temp.sort((a, b)=>{
+        //   console.log(this.getNum(a.organization_number) , this.getNum(b.organization_number) ,a.organization_number.length , b.organization_number.length)
+        //   // return  a.organization_number.length > b.organization_number.length
+        //   if(a.organization_number.length > b.organization_number.length){
+        //     return -1
+        //   }else{
+        //     return 1
+        //   }
+        // })
         arr = [...arr, ...temp]
       }
     })
@@ -184,6 +255,10 @@ export default {
 
 
     this.rowMergeArrs = this.rowMergeHandle(this.needMergeArr, this.tableData); // 处理数据
+      }).catch(e=>{
+
+      })
+    
   },
   methods: {
     // getSortList(arr){
@@ -278,7 +353,17 @@ export default {
         });
       });
       return needMerge;
-    }
+    },
+    getStr(str) {
+      let reg = /[0-9]+/g;
+
+      let str1 = str.replace(reg, "");
+
+      return str1;
+    },
+    getNum(str){
+      return str.replace(/[^0-9]/ig,"")*1
+    },
   }
 };
 </script>

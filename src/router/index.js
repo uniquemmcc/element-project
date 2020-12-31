@@ -39,11 +39,7 @@ const routes = [
     name: 'test',
     component: () => import(/* webpackChunkName: "List" */ '../views/Test.vue')
   },
-  {
-    path: '/test2',
-    name: 'test2',
-    component: () => import(/* webpackChunkName: "List" */ '../views/Test2.vue')
-  },
+
   {
     path: '/test3',
     name: 'test3',
@@ -68,6 +64,16 @@ const routes = [
     path: '/test_city',
     name: 'test_city',
     component: () => import(/* webpackChunkName: "List" */ '../views/Test_city.vue')
+  },
+  {
+    path: '/test_role',
+    name: 'test_role',
+    component: () => import(/* webpackChunkName: "List" */ '../views/Test_role.vue')
+  },
+  {
+    path: '/city',
+    name: 'city',
+    component: () => import(/* webpackChunkName: "List" */ '../views/City.vue')
   }
 ]
 
